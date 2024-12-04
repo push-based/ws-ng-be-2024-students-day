@@ -47,3 +47,4 @@ npm run start
 11. [Attribute Directives: HostBindings & HostListeners](exercises/components%20&%20template/attribute_directive_hostbinding_hostlistener.md)
 12. [Pipes: MovieImagePipe](exercises/components%20&%20template/pipes.md)
 13. [Async Data: HttpClient](exercises/async%20data%20-%20http/http-client.md)
+14. [Routing: Router Setup](exercises/routing/routing_setup.md)

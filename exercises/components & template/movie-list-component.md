@@ -57,7 +57,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'movie-list',
-  standalone: true,
   imports: [],
   template: ` <p>movie-list works!</p> `,
   styles: ``,
@@ -276,7 +275,6 @@ import { MovieModel } from '../../shared/model/movie.model';
 
 @Component({
   selector: 'movie-list',
-  standalone: true,
   imports: [],
   template: `
     @for (movie of movies(); track movie.id) {
@@ -337,7 +335,6 @@ import { MovieModel } from './shared/model/movie.model';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [AppShellComponent, MovieListComponent],
   template: `
     <app-shell>

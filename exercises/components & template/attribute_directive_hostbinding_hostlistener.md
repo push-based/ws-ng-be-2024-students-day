@@ -66,7 +66,6 @@ You want to define those in the `host` property of the `@Directive` decorator.
 
 @Directive({
   selector: '[tilt]',
-  standalone: true,
   host: {
     '(mouseleave)': 'reset()',
     '(mouseenter)': 'rotate($event)',
@@ -96,7 +95,6 @@ import { Directive, ElementRef, input } from '@angular/core';
 
 @Directive({
   selector: '[tilt]',
-  standalone: true,
   host: {
     '(mouseleave)': 'reset()',
     '(mouseenter)': 'rotate($event)',

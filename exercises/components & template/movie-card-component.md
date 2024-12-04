@@ -55,7 +55,6 @@ import { Component } from '@angular/core';
 
 @Component({
   selector: 'movie-card',
-  standalone: true,
   imports: [],
   template: ` <p>movie-card works!</p> `,
   styles: ``,
@@ -295,7 +294,6 @@ import { StarRatingComponent } from '../../ui/pattern/star-rating/star-rating.co
 
 @Component({
   selector: 'movie-card',
-  standalone: true,
   imports: [StarRatingComponent]
 })
 export class MovieCardComponent { }
@@ -316,7 +314,6 @@ import { StarRatingComponent } from '../../ui/pattern/star-rating/star-rating.co
 
 @Component({
   selector: 'movie-card',
-  standalone: true,
   imports: [StarRatingComponent],
   template: `
     <div class="movie-card">
@@ -399,7 +396,6 @@ import { MovieCardComponent } from '../movie-card/movie-card.component';
 
 @Component({
   selector: 'movie-list',
-  standalone: true,
   imports: [MovieCardComponent],
   template: `
     @for (movie of movies(); track movie.id) {

@@ -96,7 +96,6 @@ import { Directive, ElementRef, OnInit } from '@angular/core';
 
 @Directive({
     selector: '[tilt]',
-    standalone: true
 })
 export class TiltDirective implements OnInit {
     
@@ -313,7 +312,6 @@ import { Directive, ElementRef, input, OnInit } from '@angular/core';
 
 @Directive({
   selector: '[tilt]',
-  standalone: true,
 })
 export class TiltDirective implements OnInit {
   tiltDegree = input(5);
@@ -360,7 +358,6 @@ import { StarRatingComponent } from '../../ui/pattern/star-rating/star-rating.co
 
 @Component({
   selector: 'movie-card',
-  standalone: true,
   imports: [StarRatingComponent, TiltDirective],
   template: `
     <div class="movie-card" tilt [tiltDegree]="360">
