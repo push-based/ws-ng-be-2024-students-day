@@ -1,0 +1,23 @@
+@for (movie of movies(); track movie.id) {
+  <movie-card [movie]="movie" [(favorite)]]="favoriteMovieIds().has(movie.id)"></movie-card>
+  <div class="movie-card">
+    <img
+      class="movie-image"
+      [alt]="movie.title"
+      [src]="'https://image.tmdb.org/t/p/w342' + movie.poster_path" />
+    <div class="movie-card-content">
+      <div class="movie-card-title">{{ movie.title }}</div>
+      <div class="movie-card-rating">{{ movie.vote_average }}</div>
+    </div>
+    <button
+      class="favorite-indicator"
+      [class.is-favorite]="favoriteMovieIds().has(movie.id)"
+      (click)="toggleFavorite.emit(movie)">
+      @if (favoriteMovieIds().has(movie.id)) {
+        I like it
+      } @else {
+        Like me
+      }
+    </button>
+  </div>
+}

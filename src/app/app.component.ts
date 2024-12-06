@@ -1,44 +1,26 @@
 import { Component, computed, signal } from '@angular/core';
 
 import { AppShellComponent } from './app-shell/app-shell.component';
+import { MovieListComponent } from './movie/movie-list/movie-list.component';
 import { MovieModel } from './shared/model/movie.model';
 
 @Component({
   selector: 'app-root',
-  imports: [AppShellComponent],
+  imports: [AppShellComponent, MovieListComponent],
   template: `
     <app-shell>
       <div class="favorite-widget">
-        @for (fav of favoriteMovies(); track fav) {
+        @for (fav of favoriteMovies(); track fav; let last = $last) {
           <span>{{ fav.title }}</span>
-          @if (!$last) {
+          @if (!last) {
             <span>•</span>
           }
         }
       </div>
-
-      @for (movie of movies(); track movie.id) {
-        <div class="movie-card">
-          <img
-            class="movie-image"
-            [alt]="movie.title"
-            [src]="'https://image.tmdb.org/t/p/w342' + movie.poster_path" />
-          <div class="movie-card-content">
-            <div class="movie-card-title">{{ movie.title }}</div>
-            <div class="movie-card-rating">{{ movie.vote_average }}</div>
-          </div>
-          <button
-            class="favorite-indicator"
-            [class.is-favorite]="favoriteMovieIds().has(movie.id)"
-            (click)="toggleFavorite(movie)">
-            @if (favoriteMovieIds().has(movie.id)) {
-              I like it
-            } @else {
-              Like me
-            }
-          </button>
-        </div>
-      }
+      <movie-list
+        [movies]="movies()"
+        [favoriteMovieIds]="favoriteMovieIds()"
+        (toggleFavorite)="toggleFavorite($event)" />
     </app-shell>
   `,
 })
@@ -64,13 +46,15 @@ export class AppComponent {
     },
   ]);
 
-  favoriteMovieIds = signal<Set<string>>(new Set(), { equal: () => false });
-
-  favoriteMovies = computed(() => {
-    return this.movies().filter(movie => this.favoriteMovieIds().has(movie.id));
+  favoriteMovieIds = signal(new Set<string>(), {
+    equal: () => false,
   });
 
-  toggleFavorite(movie) {
+  favoriteMovies = computed(() =>
+    this.movies().filter(movie => this.favoriteMovieIds().has(movie.id))
+  );
+
+  toggleFavorite(movie: MovieModel) {
     this.favoriteMovieIds.update(favoriteMovieIds => {
       if (favoriteMovieIds.has(movie.id)) {
         favoriteMovieIds.delete(movie.id);
@@ -79,10 +63,5 @@ export class AppComponent {
       }
       return favoriteMovieIds;
     });
-    if (this.favoriteMovieIds().has(movie.id)) {
-      this.favoriteMovieIds().delete(movie.id);
-    } else {
-      this.favoriteMovieIds().add(movie.id);
-    }
   }
 }
