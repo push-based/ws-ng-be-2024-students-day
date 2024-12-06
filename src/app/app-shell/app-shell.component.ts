@@ -8,17 +8,17 @@ import { SearchBarComponent } from '../ui/component/search-bar/search-bar.compon
 import { SideDrawerComponent } from '../ui/component/side-drawer/side-drawer.component';
 
 @Component({
-    selector: 'app-shell',
-    templateUrl: './app-shell.component.html',
-    styleUrls: ['./app-shell.component.scss'],
-    imports: [
-        SideDrawerComponent,
-        FastSvgComponent,
-        HamburgerButtonComponent,
-        SearchBarComponent,
-        DarkModeToggleComponent,
-        RouterLink,
-    ]
+  selector: 'app-shell',
+  templateUrl: './app-shell.component.html',
+  styleUrls: ['./app-shell.component.scss'],
+  imports: [
+    SideDrawerComponent,
+    FastSvgComponent,
+    HamburgerButtonComponent,
+    SearchBarComponent,
+    DarkModeToggleComponent,
+    RouterLink,
+  ],
 })
 export class AppShellComponent {
   sideDrawerOpen = false;

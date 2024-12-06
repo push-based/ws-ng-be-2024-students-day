@@ -37,8 +37,8 @@ type UiActions = {
 };
 
 @Component({
-    selector: 'ui-search-bar',
-    template: `
+  selector: 'ui-search-bar',
+  template: `
     <form
       (submit)="ui.formSubmit($event)"
       #form
@@ -60,19 +60,19 @@ type UiActions = {
         class="input" />
     </form>
   `,
-    styleUrls: ['search-bar.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    encapsulation: ViewEncapsulation.Emulated,
-    providers: [
-        {
-            provide: NG_VALUE_ACCESSOR,
-            multi: true,
-            useExisting: SearchBarComponent,
-        },
-        RxState,
-        RxActionFactory,
-    ],
-    imports: [FastSvgComponent, RxLet]
+  styleUrls: ['search-bar.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.Emulated,
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      multi: true,
+      useExisting: SearchBarComponent,
+    },
+    RxState,
+    RxActionFactory,
+  ],
+  imports: [FastSvgComponent, RxLet],
 })
 export class SearchBarComponent implements OnInit, ControlValueAccessor {
   inputRef = viewChild<ElementRef<HTMLInputElement>>('searchInput');
