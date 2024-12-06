@@ -7,35 +7,73 @@ import { AppShellComponent } from './app-shell/app-shell.component';
   imports: [AppShellComponent],
   template: `
     <app-shell>
-      <div class="movie-card">
-        <img
-          class="movie-image"
-          [alt]="movie.title"
-          [src]="'https://image.tmdb.org/t/p/w342' + movie.poster_path" />
-        <div class="movie-card-content">
-          <div class="movie-card-title">
-            {{ movie.title }}
-          </div>
-          <div class="movie-card-rating">
-            {{ movie.vote_average }}
-          </div>
-        </div>
-        <button
-          class="favorite-indicator"
-          (click)="toggleFavorite(movie)"></button>
+      <div class="favorite-widget">
+        @for (fav of favoriteMovies(); track fav) {
+          <span>{{ fav.title }}</span>
+          @if (!$last) {
+            <span>•</span>
+          }
+        }
       </div>
+
+      @for (movie of movies; track movie.id) {
+        <div class="movie-card">
+          <img
+            class="movie-image"
+            [alt]="movie.title"
+            [src]="'https://image.tmdb.org/t/p/w342' + movie.poster_path" />
+          <div class="movie-card-content">
+            <div class="movie-card-title">{{ movie.title }}</div>
+            <div class="movie-card-rating">{{ movie.vote_average }}</div>
+          </div>
+          <button
+            class="favorite-indicator"
+            [class.is-favorite]="favoriteMovieIds.has(movie.id)"
+            (click)="toggleFavorite(movie)">
+            @if (favoriteMovieIds.has(movie.id)) {
+              I like it
+            } @else {
+              Like me
+            }
+          </button>
+        </div>
+      }
     </app-shell>
   `,
 })
 export class AppComponent {
-  movie = {
-    id: 'the-god',
-    title: 'The Godfather',
-    poster_path: '/3bhkrj58Vtu7enYsRolD1fZdja1.jpg',
-    vote_average: 10,
+  movies = [
+    {
+      id: 'the-god',
+      title: 'The Godfather',
+      poster_path: '/3bhkrj58Vtu7enYsRolD1fZdja1.jpg',
+      vote_average: 10,
+    },
+    {
+      id: 'the-god-2',
+      title: 'The Godfather part II',
+      poster_path: '/hek3koDUyRQk7FIhPXsa6mT2Zc3.jpg',
+      vote_average: 9,
+    },
+    {
+      id: 'the-god-3',
+      title: 'The Godfather part III',
+      poster_path: '/lm3pQ2QoQ16pextRsmnUbG2onES.jpg',
+      vote_average: 10,
+    },
+  ];
+
+  favoriteMovieIds = new Set();
+
+  favoriteMovies = () => {
+    return this.movies.filter(movie => this.favoriteMovieIds.has(movie.id));
   };
 
   toggleFavorite(movie) {
-    console.log('toggled', movie);
+    if (this.favoriteMovieIds.has(movie.id)) {
+      this.favoriteMovieIds.delete(movie.id);
+    } else {
+      this.favoriteMovieIds.add(movie.id);
+    }
   }
 }
