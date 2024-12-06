@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
+import { Component, computed, signal } from '@angular/core';
 
 import { AppShellComponent } from './app-shell/app-shell.component';
+import { MovieModel } from './shared/model/movie.model';
 
 @Component({
   selector: 'app-root',
@@ -16,7 +17,7 @@ import { AppShellComponent } from './app-shell/app-shell.component';
         }
       </div>
 
-      @for (movie of movies; track movie.id) {
+      @for (movie of movies(); track movie.id) {
         <div class="movie-card">
           <img
             class="movie-image"
@@ -28,9 +29,9 @@ import { AppShellComponent } from './app-shell/app-shell.component';
           </div>
           <button
             class="favorite-indicator"
-            [class.is-favorite]="favoriteMovieIds.has(movie.id)"
+            [class.is-favorite]="favoriteMovieIds().has(movie.id)"
             (click)="toggleFavorite(movie)">
-            @if (favoriteMovieIds.has(movie.id)) {
+            @if (favoriteMovieIds().has(movie.id)) {
               I like it
             } @else {
               Like me
@@ -42,7 +43,7 @@ import { AppShellComponent } from './app-shell/app-shell.component';
   `,
 })
 export class AppComponent {
-  movies = [
+  movies = signal<MovieModel[]>([
     {
       id: 'the-god',
       title: 'The Godfather',
@@ -61,19 +62,27 @@ export class AppComponent {
       poster_path: '/lm3pQ2QoQ16pextRsmnUbG2onES.jpg',
       vote_average: 10,
     },
-  ];
+  ]);
 
-  favoriteMovieIds = new Set();
+  favoriteMovieIds = signal<Set<string>>(new Set(), { equal: () => false });
 
-  favoriteMovies = () => {
-    return this.movies.filter(movie => this.favoriteMovieIds.has(movie.id));
-  };
+  favoriteMovies = computed(() => {
+    return this.movies().filter(movie => this.favoriteMovieIds().has(movie.id));
+  });
 
   toggleFavorite(movie) {
-    if (this.favoriteMovieIds.has(movie.id)) {
-      this.favoriteMovieIds.delete(movie.id);
+    this.favoriteMovieIds.update(favoriteMovieIds => {
+      if (favoriteMovieIds.has(movie.id)) {
+        favoriteMovieIds.delete(movie.id);
+      } else {
+        favoriteMovieIds.add(movie.id);
+      }
+      return favoriteMovieIds;
+    });
+    if (this.favoriteMovieIds().has(movie.id)) {
+      this.favoriteMovieIds().delete(movie.id);
     } else {
-      this.favoriteMovieIds.add(movie.id);
+      this.favoriteMovieIds().add(movie.id);
     }
   }
 }
